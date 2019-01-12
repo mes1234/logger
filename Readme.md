@@ -42,6 +42,27 @@ This tool is used to log user work history and present it in easy to analyze way
       * project_id : integer,
       * name : string
       * description : string
-      * date : 2019-01-12T14:41+01:00
+      * date : yyyy-mm-ddThh:mm
       * base_item_id : integer
+
+* __SQL setup__
+  * __projects table__: 
+      * id: primary key
+      * name: string
+      * description: string
+      * owner_id : foregin key -> users_table
+      * users_id : TODO
+  * __items table__: 
+      * id: primary key
+      * project_id : foregin key -> projects table
+      * name: string
+      * description: string
+      * date : yyyy-mm-ddThh:mm
+      * owner_id : foregin key -> users_table
+  * __users table__: 
+      * id: primary key
+      * name: string
+      * root: boolean
+
+
 

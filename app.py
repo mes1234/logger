@@ -18,10 +18,10 @@ db = {
     },
 }
 
-class ListAll(Resource):
+class List(Resource):
     def get(self):
         return db,200
-class AddItem(Resource):
+class Add(Resource):
     def put(self):
         item =  {
             'data':str(datetime.now()),
@@ -33,8 +33,8 @@ class AddItem(Resource):
         return item,200
 
 
-api.add_resource(ListAll,'/listall')
-api.add_resource(AddItem,'/additem')
+api.add_resource(List,'/list:<string>')
+api.add_resource(Add,'/add')
 
 # if __name__ == '__main__':
 #     app.run(debug=True)

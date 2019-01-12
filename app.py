@@ -33,7 +33,7 @@ class Add(Resource):
         return item,200
 
 
-api.add_resource(List,'/list:<string>')
+api.add_resource(List,'/list/:<string start>/')
 api.add_resource(Add,'/add')
 
 # if __name__ == '__main__':

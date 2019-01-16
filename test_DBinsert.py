@@ -1,8 +1,8 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from sqlCreateDB import Projects, Items, Users
-engine = create_engine('sqlite:///sqlalchemy_example.db')
+from sqlCreateDB import Project, Item, User, Base
+engine = create_engine('sqlite:///dbStorage.db')
 # Bind the engine to the metadata of the Base class so that the
 # declaratives can be accessed through a DBSession instance
 Base.metadata.bind = engine
@@ -16,13 +16,29 @@ DBSession = sessionmaker(bind=engine)
 # revert all of them back to the last commit by calling
 # session.rollback()
 session = DBSession()
-
+users = [
+    {
+        "name": "Witek",
+        "password": "1234",
+        "root": True,
+    },
+    {
+        "name": "Ania",
+        "password": "12344",
+        "root": False,
+    },
+    {
+        "name": "Artur",
+        "password": "12fdf34",
+        "root": False,
+    },
+]
 # Insert a Person in the person table
-new_person = Person(name='new person')
-session.add(new_person)
+for user in users:
+    session.add(User(**user))
 session.commit()
 
-# Insert an Address in the address table
-new_address = Address(post_code='00000', person=new_person)
-session.add(new_address)
-session.commit()
+# # Insert an Address in the address table
+# new_ = Address(post_code='00000', person=new_person)
+# session.add(new_address)
+# session.commit()

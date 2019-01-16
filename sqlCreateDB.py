@@ -8,7 +8,7 @@ from sqlalchemy import create_engine
 Base = declarative_base()
 
 
-class Projects(Base):
+class Project(Base):
     '''
     table to store all projects within system
     '''
@@ -20,7 +20,7 @@ class Projects(Base):
     # users_id ? TODO
 
 
-class Items(Base):
+class Item(Base):
     __tablename__ = 'items'
     id = Column(Integer, primary_key=True)
     project_id = Column(Integer, ForeignKey('projects.id'))
@@ -30,7 +30,10 @@ class Items(Base):
     owner_id = Column(Integer, ForeignKey('users.id'))
 
 
-class Users(Base):
+class User(Base):
+    '''
+    clas definition to store users table
+    '''
     __tablename__ = 'users'
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)

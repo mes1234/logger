@@ -62,6 +62,7 @@ This tool is used to log user work history and present it in easy to analyze way
   * __users table__: 
       * id: primary key
       * name: string
+      * password: string<-shall be hash but it is TODO
       * root: boolean
 
 

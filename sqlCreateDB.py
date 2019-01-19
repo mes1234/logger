@@ -21,6 +21,9 @@ class Project(Base):
 
 
 class Item(Base):
+    '''
+    class to store items in db
+    '''
     __tablename__ = 'items'
     id = Column(Integer, primary_key=True)
     project_id = Column(Integer, ForeignKey('projects.id'))
@@ -32,7 +35,7 @@ class Item(Base):
 
 class User(Base):
     '''
-    clas definition to store users table
+    class definition to store users table
     '''
     __tablename__ = 'users'
     id = Column(Integer, primary_key=True)

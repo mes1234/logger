@@ -39,6 +39,14 @@ class ItemsAPI(Resource):
         res = list(map(lambda x: i.dump(x)[0], data))
         return res, 200
 
+    def put(self, project_id):
+        s = ItemSchema()
+        record = s.load(request.form)
+        newItem = Item(**record.data)
+        session.add(newItem)
+        session.commit()
+        pass
+
 
 api.add_resource(ProjectsAPI, '/projects')
 api.add_resource(ItemsAPI, '/projects/<int:project_id>/items')

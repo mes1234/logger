@@ -1,4 +1,4 @@
 .vscode
 /logger
 *.db        
-*.pyc
+__pycache__/

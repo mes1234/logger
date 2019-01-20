@@ -3,9 +3,6 @@ import jwt
 from functools import wraps
 from flask_jwt_extended import *
 from flask import jsonify
-USERS = {
-    'witek': '1234',
-}
 LOGGED_USERS = set()
 
 
@@ -19,21 +16,8 @@ def checkUser(fn):
         if current_user in LOGGED_USERS:
             return fn(*args, **kwargs)
         else:
-            return jsonify("Unauthorized"), 401
+            return 'Unauthorized', 401
     return wrapper
-
-
-def validateUser(username: str, password: str):
-    '''
-    function to verify if valid user is signing in
-    '''
-    if username in USERS.keys():
-        if password == USERS[username]:
-            return True
-        else:
-            return False
-    else:
-        return False
 
 
 def decodeJWT(res, secret):

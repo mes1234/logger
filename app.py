@@ -75,15 +75,11 @@ class Logout(Resource):
     '''
     @jwt_required
     @checkUser
-    def post(self):
-        username = request.json.get('username', None)
-        jwtUsername = get_jwt_identity()
-        if username == jwtUsername:
-            LOGGED_USERS.remove(username)
-            print(LOGGED_USERS)
-            return {"username": username}, 200
-        else:
-            return jsonify('Unauthorized'), 401
+    def get(self):
+        userId = get_jwt_identity()
+        LOGGED_USERS.remove(userId)
+        print(LOGGED_USERS)
+        return 'Logout Successful', 200
 
 
 class Login(Resource):
@@ -92,16 +88,18 @@ class Login(Resource):
     '''
 
     def post(self):
-        username = request.json.get('username', None)
-        password = request.json.get('password', None)
-        if validateUser(username=username, password=password):
-            # Identity can be any data that is json serializable
-            access_token = create_access_token(identity=username)
-            LOGGED_USERS.add(username)
-            print(LOGGED_USERS)
-            return {"access_token": access_token}
+        userCheck = session.query(User) \
+            .filter(User.name == request.json.get('username', None), User.password == request.json.get('password', None))\
+            .first()
+        if userCheck != None:
+            userData = userSchemaObj.dump(userCheck)
+            access_token = create_access_token(identity=userData.data["id"])
+            LOGGED_USERS.add(userData.data["id"])
+            return {
+                "access_token": access_token,
+                "user_id": userData.data["id"]}
         else:
-            return jsonify('Unauthorized'), 401
+            return 'Unauthorized', 401
 
 
 class ItemsAPI(Resource):

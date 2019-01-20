@@ -14,7 +14,7 @@ def auth_preproc():
     '''
     print(os.environ['JWT_SECRET_KEY'])
     res = requests.post(url='http://127.0.0.1:5000/login', json={
-        'username': 'witek',
+        'username': 'Witek',
         'password': '1234',
     })
     token = json.loads(res.content)['access_token']
@@ -25,15 +25,26 @@ def auth_preproc():
     return res
 
 
-def test_LoginRoute(auth_preproc):
+def test_LoginRoute():
     '''
     verify if loggin in works
     '''
     res = requests.post(url='http://127.0.0.1:5000/login', json={
-        'username': 'witek',
+        'username': 'Witek',
         'password': '1234',
     })
-    assert decodeJWT(res, os.environ['JWT_SECRET_KEY'])['identity'] == 'witek'
+    assert decodeJWT(res, os.environ['JWT_SECRET_KEY'])['identity'] == 1
+
+
+def test_LoginRouteFalsePassword():
+    '''
+    verify if loggin in works
+    '''
+    res = requests.post(url='http://127.0.0.1:5000/login', json={
+        'username': 'Witek',
+        'password': '1234232',
+    })
+    assert json.loads(res.text) == 'Unauthorized'
 
 
 def test_LogoutRoute(auth_preproc):
@@ -44,6 +55,20 @@ def test_LogoutRoute(auth_preproc):
     header = {
         'Authorization': f'Bearer {token}'
     }
-    res = requests.post(url='http://127.0.0.1:5000/logout',
-                        headers=header, json={'username': 'witek'})
-    assert json.loads(res.text)['username'] == 'witek'
+    res = requests.get(url='http://127.0.0.1:5000/logout', headers=header)
+    print(res)
+    assert json.loads(res.text) == 'Logout Successful'
+
+
+def test_LogoutRouteFalseToken(auth_preproc):
+    '''
+    verify if logout works
+    TODO this test is wired?
+    '''
+    token = auth_preproc['token']
+    header = {
+        'Authorization': f'Bearer {token}'
+    }
+    res = requests.get(url='http://127.0.0.1:5000/logout', headers=header)
+    print(res)
+    assert json.loads(res.text) == 'Unauthorized'

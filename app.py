@@ -11,7 +11,7 @@ from sqlCreateDB import Project, Item, User, Base
 from objetSerialization import *
 
 from flask_jwt_extended import *
-from helpers.auth import *
+from auth import checkUser, decodeJWT, get_jwt_identity, LOGGED_USERS
 import os
 
 

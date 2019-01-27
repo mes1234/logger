@@ -1,0 +1,25 @@
+@import '~bootstrap/scss/bootstrap';
+* {
+
+    font-family: monospace;
+    margin-top: 2px;
+    margin-left: 2px;
+    }
+.card-title-extended
+{
+    @extend .font-weight-bold;
+    @extend .card-title;
+    @extend .text-uppercase;
+}
+.card-extended
+{
+    @extend .bg-light;
+    
+    @extend .border;
+    
+}
+.login-page {
+    width: 360px;
+    padding: 8% 0 0;
+    margin: auto;
+}

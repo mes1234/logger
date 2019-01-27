@@ -1,5 +1,8 @@
-.vscode
-/logger
-*.db        
+.vscode/
+logger/
+node_modules/
 __pycache__/
 .pytest_cache/
+*.db        
+
+

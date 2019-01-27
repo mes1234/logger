@@ -1,5 +1,7 @@
 from flask import Flask, request,  Response
 from flask_restful import Resource, Api
+
+from flask_cors import CORS
 from datetime import datetime
 
 from sqlalchemy import create_engine
@@ -29,7 +31,7 @@ class VueFlask(Flask):
 
 app = VueFlask(__name__)
 api = Api(app)
-
+CORS(app)
 app.config['JWT_SECRET_KEY'] = os.environ['JWT_SECRET_KEY']
 jwt = JWTManager(app)
 
@@ -88,8 +90,9 @@ class Login(Resource):
     '''
 
     def post(self):
+        creditentials = request.json
         userCheck = session.query(User) \
-            .filter(User.name == request.json.get('username', None), User.password == request.json.get('password', None))\
+            .filter(User.name == creditentials['username'], User.password == creditentials['password'])\
             .first()
         if userCheck != None:
             userData = userSchemaObj.dump(userCheck)

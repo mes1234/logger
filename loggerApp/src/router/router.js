@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Logger from '../components/Logger'
 import Login from '../components/Login'
+import Logger from '../components/Logger'
 import store from '../store/store'
 
 Vue.use(Router)

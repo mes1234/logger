@@ -14,9 +14,31 @@ export default new Vuex.Store({
   state: {
     token: false,
     username: false,
-    userId: false
+    userId: false,
+    projectSelectedId: 0,
+    projects: ''
+  },
+  getters: {
+    ListProjects: (state) => {
+      // return all projects
+      return state.projects
+    },
+    GetCurrentProject: (state) => {
+      // return current project id
+      return state.projectSelectedId
+    }
   },
   mutations: {
+    setCurrentProjectId: (state, projectSelected) => {
+      state.projectSelectedId = projectSelected['projectSelected']
+    },
+    getListOfProjects: (state) => {
+      axios
+        .get(`http://${API}/projects`)
+        .then(respons => {
+          state.projects = respons.data
+        })
+    },
     tryLogin: (state, cred) => {
       var credToSend =
       {
@@ -54,6 +76,12 @@ export default new Vuex.Store({
     },
     logoutUser: (context, payload) => {
       context.commit('logoutUser', payload)
+    },
+    setCurrentProjectId: (context, payload) => {
+      context.commit('setCurrentProjectId', payload)
+    },
+    getListOfProjects: (context, payload) => {
+      context.commit('getListOfProjects', payload)
     }
   }
 

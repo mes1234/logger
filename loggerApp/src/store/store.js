@@ -16,23 +16,32 @@ export default new Vuex.Store({
     username: false,
     userId: false,
     projectSelectedId: 0,
-    projects: ''
+    projects: '',
+    currentDate: ''
   },
   getters: {
-    ListProjects: (state) => {
+    GetListProjects: (state) => {
       // return all projects
       return state.projects
     },
     GetCurrentProject: (state) => {
       // return current project id
       return state.projectSelectedId
+    },
+    GetCurrentDate: (state) => {
+      return state.currentDate
     }
+
   },
   mutations: {
     setCurrentProjectId: (state, projectSelected) => {
       state.projectSelectedId = projectSelected['projectSelected']
     },
-    getListOfProjects: (state) => {
+    UpdateCurrentDate: (state) => {
+      console.log(moment().format())
+      state.currentDate = moment().format('YYYY-MM-DDTHH:mm')
+    },
+    UpdateListOfProjects: (state) => {
       axios
         .get(`http://${API}/projects`)
         .then(respons => {
@@ -80,8 +89,11 @@ export default new Vuex.Store({
     setCurrentProjectId: (context, payload) => {
       context.commit('setCurrentProjectId', payload)
     },
-    getListOfProjects: (context, payload) => {
-      context.commit('getListOfProjects', payload)
+    UpdateListOfProjects: (context, payload) => {
+      context.commit('UpdateListOfProjects', payload)
+    },
+    UpdateCurrentDate: (context, payload) => {
+      context.commit('UpdateCurrentDate', payload)
     }
   }
 

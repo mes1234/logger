@@ -4,25 +4,27 @@
       <div class="card-extended">
         <div class="card-body">
           <div class="card-title-extended text-center">
-            <h3>Select project</h3>
+            <h3>Add Item</h3>
           </div>
           <div class="card-text">
             <div class="container">
               <div class="row">
                 <div class="col-sm">
-                  <form>
-                    <select
-                      v-model="projectSelected"
-                      name="project"
-                      @change="setCurrentProjectId({projectSelected})"
-                      class="form-control form-control-sm"
+                  <form class="form-group" @submit.prevent="tryLogin([username,password])">
+                    <input
+                      type="text"
+                      name="description"
+                      placeholder="Description"
+                      class="form-control"
+                      v-model="description"
                     >
-                      <option
-                        v-for="project in GetListProjects"
-                        :key="project.id"
-                        :value="project.id"
-                      >{{project.description}}</option>
-                    </select>
+                    <input
+                      type="datetime-local"
+                      name="date"
+                      v-bind:value="GetCurrentDate"
+                      class="form-control"
+                    >
+                    <input type="submit" name="add" value="add" class="form-control">
                   </form>
                 </div>
               </div>
@@ -40,20 +42,23 @@ import { mapActions } from "vuex";
 export default {
   data() {
     return {
-      projectSelected: 0
+      description: ""
+      //
     };
   },
   mounted() {
-    this.$store.dispatch("UpdateListOfProjects"); //fetch list of projects before running
+    this.$store.dispatch("UpdateCurrentDate"); //fetch list of projects before running
   },
   methods: {
     ...mapActions([
-      "setCurrentProjectId" //update store id of currently used project
+      "UpdateCurrentDate"
+      //
     ])
   },
   computed: {
     ...mapGetters([
-      "GetListProjects" //return all project
+      "GetCurrentDate"
+      //
     ])
   }
 };

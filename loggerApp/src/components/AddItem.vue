@@ -10,18 +10,21 @@
             <div class="container">
               <div class="row">
                 <div class="col-sm">
-                  <form class="form-group" @submit.prevent="tryLogin([username,password])">
+                  <form
+                    class="form-group"
+                    @submit.prevent="NewItemAdd([NewItemName,NewItemDescription,NewItemDate])"
+                  >
+                    <input type="text" name="name" class="form-control" v-model="NewItemName">
                     <input
                       type="text"
                       name="description"
-                      placeholder="Description"
                       class="form-control"
-                      v-model="description"
+                      v-model="NewItemDescription"
                     >
                     <input
                       type="datetime-local"
                       name="date"
-                      v-bind:value="GetCurrentDate"
+                      v-model="NewItemDate"
                       class="form-control"
                     >
                     <input type="submit" name="add" value="add" class="form-control">
@@ -42,16 +45,19 @@ import { mapActions } from "vuex";
 export default {
   data() {
     return {
-      description: ""
+      NewItemName: "name",
+      NewItemDescription: "desc",
+      NewItemDate: ""
       //
     };
   },
   mounted() {
-    this.$store.dispatch("UpdateCurrentDate"); //fetch list of projects before running
+    this.NewItemDate = this.$store.getters.GetCurrentDate;
   },
   methods: {
     ...mapActions([
-      "UpdateCurrentDate"
+      "GetCurrentDate",
+      "NewItemAdd"
       //
     ])
   },

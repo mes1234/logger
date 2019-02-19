@@ -121,12 +121,13 @@ class ItemsAPI(Resource):
 
     @jwt_required
     @checkUser
-    def put(self, project_id):
+    def post(self, project_id):
         '''
         add item to project with id project_id
         endpoint: /projects/{project_id:int}/items
         '''
-        record = itemSchemaObj.load(request.form)
+
+        record = itemSchemaObj.load(request.json)
         newItem = Item(**record.data)
         session.add(newItem)
         session.commit()

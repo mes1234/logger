@@ -16,8 +16,7 @@ export default new Vuex.Store({
     username: false,
     userId: false,
     projectSelectedId: 0,
-    projects: '',
-    currentDate: ''
+    projects: ''
   },
   getters: {
     GetListProjects: (state) => {
@@ -29,17 +28,13 @@ export default new Vuex.Store({
       return state.projectSelectedId
     },
     GetCurrentDate: (state) => {
-      return state.currentDate
+      return moment().format('YYYY-MM-DDTHH:mm')
     }
 
   },
   mutations: {
     setCurrentProjectId: (state, projectSelected) => {
       state.projectSelectedId = projectSelected['projectSelected']
-    },
-    UpdateCurrentDate: (state) => {
-      console.log(moment().format())
-      state.currentDate = moment().format('YYYY-MM-DDTHH:mm')
     },
     UpdateListOfProjects: (state) => {
       axios
@@ -77,6 +72,24 @@ export default new Vuex.Store({
         .catch(error => {
           console.log(error.response)
         })
+    },
+    NewItemAdd: (state, NewItemData) => {
+      var varToSend =
+      {
+        project_id: state.projectSelectedId,
+        name: NewItemData[0],
+        description: NewItemData[1],
+        date: NewItemData[2] + ':00',
+        owner_id: state.userId
+      }
+      console.log(varToSend)
+      axios.post(`http://${API}/projects/${state.projectSelectedId}/items`, varToSend)
+        .then(respons => {
+          console.log(respons.response)
+        })
+        .catch(error => {
+          console.log(error.response)
+        })
     }
   },
   actions: {
@@ -94,6 +107,9 @@ export default new Vuex.Store({
     },
     UpdateCurrentDate: (context, payload) => {
       context.commit('UpdateCurrentDate', payload)
+    },
+    NewItemAdd: (context, payload) => {
+      context.commit('NewItemAdd', payload)
     }
   }
 

@@ -16,7 +16,8 @@ export default new Vuex.Store({
     username: false,
     userId: false,
     projectSelectedId: 0,
-    projects: ''
+    projects: false,
+    items: false
   },
   getters: {
     GetListProjects: (state) => {
@@ -29,12 +30,20 @@ export default new Vuex.Store({
     },
     GetCurrentDate: (state) => {
       return moment().format('YYYY-MM-DDTHH:mm')
+    },
+    GetItems: (state) => {
+      return state.items
     }
 
   },
   mutations: {
     setCurrentProjectId: (state, projectSelected) => {
       state.projectSelectedId = projectSelected['projectSelected']
+      axios
+        .get(`http://${API}/projects/${state.projectSelectedId}/items`)
+        .then(respons => {
+          state.items = respons.data
+        })
     },
     UpdateListOfProjects: (state) => {
       axios
@@ -85,7 +94,11 @@ export default new Vuex.Store({
       console.log(varToSend)
       axios.post(`http://${API}/projects/${state.projectSelectedId}/items`, varToSend)
         .then(respons => {
-          console.log(respons.response)
+          axios
+            .get(`http://${API}/projects/${state.projectSelectedId}/items`)
+            .then(respons => {
+              state.items = respons.data
+            })
         })
         .catch(error => {
           console.log(error.response)
@@ -112,5 +125,4 @@ export default new Vuex.Store({
       context.commit('NewItemAdd', payload)
     }
   }
-
 })

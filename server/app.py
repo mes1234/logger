@@ -54,7 +54,9 @@ class ProjectsAPI(Resource):
         fetch whole list of projects and return it as json
         endpoint: /projects
         '''
-        data = session.query(Project).all()
+        current_user = get_jwt_identity()
+        data = session.query(Project).filter(
+            Project.owner_id == current_user).all()
         result = list(map(lambda obj: projectSchemaObj.dump(obj).data, data))
         return result, 200
 

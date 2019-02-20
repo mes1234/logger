@@ -12,6 +12,7 @@
                 <div class="col-sm">
                   <project-select></project-select>
                   <add-item></add-item>
+                  <show-items></show-items>
                 </div>
               </div>
             </div>
@@ -25,11 +26,13 @@
 <script>
 import ProjectSelect from "./ProjectSelect.vue";
 import AddItem from "./AddItem.vue";
+import ShowItems from "./ShowItems.vue";
 export default {
   name: "app",
   components: {
     "project-select": ProjectSelect,
-    "add-item": AddItem
+    "add-item": AddItem,
+    "show-items": ShowItems
   }
 };
 </script>
